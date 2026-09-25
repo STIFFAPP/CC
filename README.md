@@ -1,15 +1,19 @@
-# 12-Week Conversation Confidence App
+# Confidence Plans — GitHub Pages App
 
-A single-file GitHub Pages app containing the 12-week conversation-confidence programme.
+A single-file, mobile-friendly app with a landing-page plan selector and six 12-week programmes.
+
+## Included plans
+- Conversation & Social Skills (the original uploaded 12-week programme)
+- Confident Dating Mindset
+- Approaching Women
+- Dating & Relationships
+- Self-Worth & People-Pleasing
+- 12-Week Complete Programme
+
+Progress is stored independently for each plan in browser localStorage.
 
 ## Run locally
 Open `index.html` in a browser.
 
 ## Publish on GitHub Pages
-1. Create a new GitHub repository.
-2. Upload `index.html`.
-3. Go to **Settings → Pages**.
-4. Set the source to the `main` branch and `/ (root)`.
-5. Save.
-
-The app stores week completion and checklist progress in the browser using localStorage.
+Upload `index.html` to your repository and enable Pages from the main branch / root.
