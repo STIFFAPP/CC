@@ -1,4 +1,4 @@
-# KB Life Manager
+# Life Manager
 
 A private-by-device, ADHD-friendly routine and planning app built for GitHub Pages.
 

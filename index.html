@@ -40,8 +40,8 @@ function renderLanding(){
   const featured=[
     {type:"internal",id:"conversation"},
     {type:"external",href:"apps/stiff/index.html",icon:"⚡",name:"STIFF",desc:"Open your private STIFF course and continue through its phases, lessons and exercises."},
-    {type:"external",href:"apps/life-manager/index.html",icon:"🧭",name:"KB Life Manager",desc:"Your day-to-day life manager, reset tools and practical support for keeping things moving."},
-    {type:"external",href:"apps/workout/index.html",icon:"🏋️",name:"KB 12-Week Workout",desc:"Open your 12-week workout programme and weight tracker."}
+    {type:"external",href:"apps/life-manager/index.html",icon:"🧭",name:"Life Manager",desc:"Your day-to-day life manager, reset tools and practical support for keeping things moving."},
+    {type:"external",href:"apps/workout/index.html",icon:"🏋️",name:"12-Week Workout",desc:"Open your 12-week workout programme and weight tracker."}
   ];
   const featuredIds=new Set(featured.filter(x=>x.id).map(x=>x.id));
   const cards=featured.map(x=>{

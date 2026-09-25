@@ -1,4 +1,4 @@
-# KB 12-Week Workout
+# 12-Week Workout
 
 A mobile-friendly 12-week workout tracker with **Beginner**, **Intermediate**, and **Advanced** plans. It records the weight loaded on **one side** of the bar or machine.
 
