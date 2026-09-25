@@ -4,7 +4,7 @@
     "name": "STIFF",
     "description": "Open your private STIFF course and continue through its phases, lessons and exercises.",
     "desc": "Open your private STIFF course and continue through its phases, lessons and exercises.",
-    "icon": "⚡",
+    "icon": "\u26a1",
     "href": "apps/stiff/index.html",
     "priority": true
   },
@@ -13,7 +13,7 @@
     "name": "Life Manager",
     "description": "Your day-to-day life manager, reset tools and practical support for keeping things moving.",
     "desc": "Your day-to-day life manager, reset tools and practical support for keeping things moving.",
-    "icon": "🧭",
+    "icon": "\ud83e\udded",
     "href": "apps/life-manager/index.html",
     "priority": true
   },
@@ -22,7 +22,7 @@
     "name": "12-Week Workout",
     "description": "Open your 12-week workout programme and weight tracker.",
     "desc": "Open your 12-week workout programme and weight tracker.",
-    "icon": "🏋️",
+    "icon": "\ud83c\udfcb\ufe0f",
     "href": "apps/workout/index.html",
     "priority": true
   },
@@ -31,7 +31,7 @@
     "name": "Meditation & Presence",
     "description": "12 weeks to build mindfulness, attention, emotional awareness and a calmer relationship with your thoughts.",
     "desc": "12 weeks to build mindfulness, attention, emotional awareness and a calmer relationship with your thoughts.",
-    "icon": "🧘",
+    "icon": "\ud83e\uddd8",
     "href": "apps/meditation-presence/index.html",
     "priority": false
   },
@@ -40,7 +40,7 @@
     "name": "Understanding Business Management",
     "description": "12 weeks to understand customers, finance, operations, people, strategy and how a business is managed.",
     "desc": "12 weeks to understand customers, finance, operations, people, strategy and how a business is managed.",
-    "icon": "💼",
+    "icon": "\ud83d\udcbc",
     "href": "apps/business-management/index.html",
     "priority": false
   },
@@ -49,7 +49,7 @@
     "name": "Understanding Stoicism",
     "description": "12 weeks to study Stoic philosophy and turn its ideas into practical habits without confusing Stoicism with suppressing emotion.",
     "desc": "12 weeks to study Stoic philosophy and turn its ideas into practical habits without confusing Stoicism with suppressing emotion.",
-    "icon": "🏛️",
+    "icon": "\ud83c\udfdb\ufe0f",
     "href": "apps/stoicism/index.html",
     "priority": false
   },
@@ -58,7 +58,7 @@
     "name": "Tax Evasion, Compliance & Legal Tax Planning",
     "description": "12 weeks to understand tax evasion, recognise risky behaviour, keep better records and distinguish illegal evasion from lawful tax planning.",
     "desc": "12 weeks to understand tax evasion, recognise risky behaviour, keep better records and distinguish illegal evasion from lawful tax planning.",
-    "icon": "🧾",
+    "icon": "\ud83e\uddfe",
     "href": "apps/tax-compliance/index.html",
     "priority": false
   },
@@ -67,8 +67,26 @@
     "name": "Eden Ground Maintenance Advertising",
     "description": "12 weeks to build a repeatable local advertising system for Eden Ground Maintenance, from positioning and proof to enquiries, follow-up and referrals.",
     "desc": "12 weeks to build a repeatable local advertising system for Eden Ground Maintenance, from positioning and proof to enquiries, follow-up and referrals.",
-    "icon": "🌿",
+    "icon": "\ud83c\udf3f",
     "href": "apps/eden-advertising/index.html",
+    "priority": false
+  },
+  {
+    "id": "youtube-storytelling",
+    "name": "YouTube Storytelling",
+    "description": "12 weeks to learn hooks, story structure, scripting, pacing, retention and emotionally engaging YouTube stories.",
+    "desc": "12 weeks to learn hooks, story structure, scripting, pacing, retention and emotionally engaging YouTube stories.",
+    "icon": "\ud83c\udfac",
+    "href": "apps/youtube-storytelling/index.html",
+    "priority": false
+  },
+  {
+    "id": "cinematic-camera",
+    "name": "Cinematic Camera & Visual Storytelling",
+    "description": "12 weeks of camera, lighting, movement, sound and cinematic sequencing designed to support your YouTube storytelling.",
+    "desc": "12 weeks of camera, lighting, movement, sound and cinematic sequencing designed to support your YouTube storytelling.",
+    "icon": "\ud83c\udfa5",
+    "href": "apps/cinematic-camera/index.html",
     "priority": false
   }
 ]

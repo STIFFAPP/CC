@@ -29,3 +29,6 @@ For permanent repository-defined apps, edit `config/apps.json`. Those tiles load
 
 
 Added plans: Meditation & Presence, Understanding Business Management, Understanding Stoicism, Tax Evasion/Compliance & Legal Tax Planning, and Eden Ground Maintenance Advertising. Sessions persist with a 24-hour inactivity nudge and 48-hour inactivity sign-out.
+
+
+Update: Added YouTube Storytelling and Cinematic Camera & Visual Storytelling 12-week courses. Improved Hub/back navigation across plan pages and browser history.

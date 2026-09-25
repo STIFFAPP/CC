@@ -2,7 +2,7 @@
 const SUPABASE_URL='https://cxrfobwwjfnzwjunzrvs.supabase.co';
 const SUPABASE_KEY='sb_publishable_a7nF_FXsb6HRHPxQsUDfWQ_DPsx2jnS';
 const SYNC_APP_KEY='confidence-hub';
-const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-','hubCustomApps'];
+const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-','hubCustomApps','hubTileOrder'];
 let sb=null,user=null,pushTimer=null,applying=false;
 const $=id=>document.getElementById(id);
 function tracked(k){return SYNC_PREFIXES.some(p=>k===p||k.startsWith(p));}
@@ -29,8 +29,8 @@ async function signOut(){if(sb)await sb.auth.signOut();location.reload();}
 function closeAccount(){ $('accountPopover')?.classList.add('hidden'); }
 function renderAccount(){
  const pop=$('accountPopover'); if(!pop||!user)return;
- pop.innerHTML=`<div class="account-title">MOJOMAN</div><div class="account-email">${user.email||'Signed in'} · ☁ Synced</div><button id="acctAdd">＋ Add App</button><button id="acctManage">⚙ Manage Apps</button><button id="acctPass">🔐 Add Face ID / Touch ID</button><button id="acctOut">↪ Sign out</button>`;
- $('acctAdd').onclick=()=>{closeAccount();window.openAdmin?.(false)};$('acctManage').onclick=()=>{closeAccount();window.openAdmin?.(true)};$('acctPass').onclick=addPasskey;$('acctOut').onclick=signOut;
+ pop.innerHTML=`<div class="account-title">MOJOMAN</div><div class="account-email">${user.email||'Signed in'} · ☁ Synced</div><button id="acctAdd">＋ Add App</button><button id="acctManage">⚙ Manage Apps</button><button id="acctOrder">↕ Organise Tiles</button><button id="acctPass">🔐 Add Face ID / Touch ID</button><button id="acctOut">↪ Sign out</button>`;
+ $('acctAdd').onclick=()=>{closeAccount();window.openAdmin?.(false)};$('acctManage').onclick=()=>{closeAccount();window.openAdmin?.(true)};$('acctOrder').onclick=()=>{closeAccount();window.openOrganizer?.()};$('acctPass').onclick=addPasskey;$('acctOut').onclick=signOut;
 }
 function renderAuthUi(errorText=''){
  document.body.classList.remove('auth-pending');
@@ -42,12 +42,12 @@ function renderAuthUi(errorText=''){
 $('landingEmail')?.addEventListener('click',emailSignIn);$('landingPasskey')?.addEventListener('click',passkeySignIn);
 $('accountButton')?.addEventListener('click',()=>{const p=$('accountPopover');p.classList.toggle('hidden');if(!p.classList.contains('hidden'))renderAccount();});
 document.addEventListener('click',e=>{const p=$('accountPopover'),b=$('accountButton');if(p&&!p.classList.contains('hidden')&&!p.contains(e.target)&&!b?.contains(e.target))closeAccount();});
-window.KBCloud={push,pull};init();
+window.KBCloud={push,pull,signOut,isSignedIn:()=>!!user};init();
 })();
 
 // MOJOMAN inactivity policy: keep sessions persistent, nudge after 24h idle, sign out after 48h idle.
 const HUB_IDLE_NUDGE_MS=24*60*60*1000, HUB_IDLE_SIGNOUT_MS=48*60*60*1000, HUB_ACTIVITY_KEY="hubLastActivity";
 function hubTouch() { localStorage.setItem(HUB_ACTIVITY_KEY,String(Date.now())); }
-async function hubIdleCheck(){ const last=Number(localStorage.getItem(HUB_ACTIVITY_KEY)||Date.now()); const idle=Date.now()-last; if(user && idle>=HUB_IDLE_SIGNOUT_MS){ await signOut(); return; } if(user && idle>=HUB_IDLE_NUDGE_MS && !sessionStorage.getItem("hubIdleNudged")){ sessionStorage.setItem("hubIdleNudged","1"); const el=document.createElement("div"); el.textContent="Still using MOJOMAN? Tap here to keep this device signed in."; el.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:100000;background:#1c2641;color:white;padding:13px 16px;border:1px solid #39486d;border-radius:14px;text-align:center;cursor:pointer;box-shadow:0 10px 35px #0008"; el.onclick=()=>{hubTouch();el.remove()}; document.body.appendChild(el); }}
+async function hubIdleCheck(){ const last=Number(localStorage.getItem(HUB_ACTIVITY_KEY)||Date.now()); const idle=Date.now()-last; if(window.KBCloud?.isSignedIn?.() && idle>=HUB_IDLE_SIGNOUT_MS){ await window.KBCloud.signOut(); return; } if(window.KBCloud?.isSignedIn?.() && idle>=HUB_IDLE_NUDGE_MS && !sessionStorage.getItem("hubIdleNudged")){ sessionStorage.setItem("hubIdleNudged","1"); const el=document.createElement("div"); el.textContent="Still using MOJOMAN? Tap here to keep this device signed in."; el.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:100000;background:#1c2641;color:white;padding:13px 16px;border:1px solid #39486d;border-radius:14px;text-align:center;cursor:pointer;box-shadow:0 10px 35px #0008"; el.onclick=()=>{hubTouch();el.remove()}; document.body.appendChild(el); }}
 ["pointerdown","keydown","touchstart"].forEach(e=>addEventListener(e,hubTouch,{passive:true}));
 if(!localStorage.getItem(HUB_ACTIVITY_KEY)) hubTouch(); setTimeout(hubIdleCheck,1200); setInterval(hubIdleCheck,15*60*1000);
