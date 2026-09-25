@@ -4,7 +4,7 @@
     "name": "STIFF",
     "description": "Open your private STIFF course and continue through its phases, lessons and exercises.",
     "desc": "Open your private STIFF course and continue through its phases, lessons and exercises.",
-    "icon": "\u26a1",
+    "icon": "⚡",
     "href": "apps/stiff/index.html",
     "priority": true
   },
@@ -13,7 +13,7 @@
     "name": "Life Manager",
     "description": "Your day-to-day life manager, reset tools and practical support for keeping things moving.",
     "desc": "Your day-to-day life manager, reset tools and practical support for keeping things moving.",
-    "icon": "\ud83e\udded",
+    "icon": "🧭",
     "href": "apps/life-manager/index.html",
     "priority": true
   },
@@ -22,8 +22,53 @@
     "name": "12-Week Workout",
     "description": "Open your 12-week workout programme and weight tracker.",
     "desc": "Open your 12-week workout programme and weight tracker.",
-    "icon": "\ud83c\udfcb\ufe0f",
+    "icon": "🏋️",
     "href": "apps/workout/index.html",
     "priority": true
+  },
+  {
+    "id": "meditation-presence",
+    "name": "Meditation & Presence",
+    "description": "12 weeks to build mindfulness, attention, emotional awareness and a calmer relationship with your thoughts.",
+    "desc": "12 weeks to build mindfulness, attention, emotional awareness and a calmer relationship with your thoughts.",
+    "icon": "🧘",
+    "href": "apps/meditation-presence/index.html",
+    "priority": false
+  },
+  {
+    "id": "business-management",
+    "name": "Understanding Business Management",
+    "description": "12 weeks to understand customers, finance, operations, people, strategy and how a business is managed.",
+    "desc": "12 weeks to understand customers, finance, operations, people, strategy and how a business is managed.",
+    "icon": "💼",
+    "href": "apps/business-management/index.html",
+    "priority": false
+  },
+  {
+    "id": "stoicism",
+    "name": "Understanding Stoicism",
+    "description": "12 weeks to study Stoic philosophy and turn its ideas into practical habits without confusing Stoicism with suppressing emotion.",
+    "desc": "12 weeks to study Stoic philosophy and turn its ideas into practical habits without confusing Stoicism with suppressing emotion.",
+    "icon": "🏛️",
+    "href": "apps/stoicism/index.html",
+    "priority": false
+  },
+  {
+    "id": "tax-compliance",
+    "name": "Tax Evasion, Compliance & Legal Tax Planning",
+    "description": "12 weeks to understand tax evasion, recognise risky behaviour, keep better records and distinguish illegal evasion from lawful tax planning.",
+    "desc": "12 weeks to understand tax evasion, recognise risky behaviour, keep better records and distinguish illegal evasion from lawful tax planning.",
+    "icon": "🧾",
+    "href": "apps/tax-compliance/index.html",
+    "priority": false
+  },
+  {
+    "id": "eden-advertising",
+    "name": "Eden Ground Maintenance Advertising",
+    "description": "12 weeks to build a repeatable local advertising system for Eden Ground Maintenance, from positioning and proof to enquiries, follow-up and referrals.",
+    "desc": "12 weeks to build a repeatable local advertising system for Eden Ground Maintenance, from positioning and proof to enquiries, follow-up and referrals.",
+    "icon": "🌿",
+    "href": "apps/eden-advertising/index.html",
+    "priority": false
   }
 ]

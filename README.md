@@ -26,3 +26,6 @@ Upload `index.html` to your repository and enable Pages from the main branch / r
 4. When signed in, the custom app catalogue syncs through the Supabase `user_app_data` record.
 
 For permanent repository-defined apps, edit `config/apps.json`. Those tiles load automatically on every device.
+
+
+Added plans: Meditation & Presence, Understanding Business Management, Understanding Stoicism, Tax Evasion/Compliance & Legal Tax Planning, and Eden Ground Maintenance Advertising. Sessions persist with a 24-hour inactivity nudge and 48-hour inactivity sign-out.

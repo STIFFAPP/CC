@@ -44,3 +44,10 @@ $('accountButton')?.addEventListener('click',()=>{const p=$('accountPopover');p.
 document.addEventListener('click',e=>{const p=$('accountPopover'),b=$('accountButton');if(p&&!p.classList.contains('hidden')&&!p.contains(e.target)&&!b?.contains(e.target))closeAccount();});
 window.KBCloud={push,pull};init();
 })();
+
+// MOJOMAN inactivity policy: keep sessions persistent, nudge after 24h idle, sign out after 48h idle.
+const HUB_IDLE_NUDGE_MS=24*60*60*1000, HUB_IDLE_SIGNOUT_MS=48*60*60*1000, HUB_ACTIVITY_KEY="hubLastActivity";
+function hubTouch() { localStorage.setItem(HUB_ACTIVITY_KEY,String(Date.now())); }
+async function hubIdleCheck(){ const last=Number(localStorage.getItem(HUB_ACTIVITY_KEY)||Date.now()); const idle=Date.now()-last; if(user && idle>=HUB_IDLE_SIGNOUT_MS){ await signOut(); return; } if(user && idle>=HUB_IDLE_NUDGE_MS && !sessionStorage.getItem("hubIdleNudged")){ sessionStorage.setItem("hubIdleNudged","1"); const el=document.createElement("div"); el.textContent="Still using MOJOMAN? Tap here to keep this device signed in."; el.style.cssText="position:fixed;left:12px;right:12px;bottom:12px;z-index:100000;background:#1c2641;color:white;padding:13px 16px;border:1px solid #39486d;border-radius:14px;text-align:center;cursor:pointer;box-shadow:0 10px 35px #0008"; el.onclick=()=>{hubTouch();el.remove()}; document.body.appendChild(el); }}
+["pointerdown","keydown","touchstart"].forEach(e=>addEventListener(e,hubTouch,{passive:true}));
+if(!localStorage.getItem(HUB_ACTIVITY_KEY)) hubTouch(); setTimeout(hubIdleCheck,1200); setInterval(hubIdleCheck,15*60*1000);
