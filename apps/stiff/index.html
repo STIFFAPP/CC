@@ -213,4 +213,5 @@ function renderViewer(){
 function prev(){if(idx>0){idx--;renderViewer()}}
 function next(){if(idx<lesson.seq.length-1){idx++;renderViewer()}else{completed[lesson.folder]=true;save();currentPage==='resources'?resources():showPhase(phase)}}
 home();
-</script></body></html>
+</script><script src="../../cloud-sync.js"></script>
+</body></html>

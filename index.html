@@ -60,4 +60,5 @@ function render(){const s=state(),w=plans[planId].weeks[current-1];$("eyebrow").
 function buildWeekList(){const s=state();$("weekList").innerHTML=plans[planId].weeks.map(w=>`<button class="week-btn ${current===w.n?"active":""} ${s[`w${w.n}-done`]?"done":""}" data-week="${w.n}"><span class="num">${w.n}</span><span><div class="week-title">${w.title}</div><div class="week-focus">${w.focus}</div></span></button>`).join("");document.querySelectorAll(".week-btn").forEach(b=>b.onclick=()=>{current=Number(b.dataset.week);render();window.scrollTo({top:0,behavior:"smooth"})})}
 function updateProgress(){const s=state(),done=plans[planId].weeks.filter(w=>s[`w${w.n}-done`]).length,pct=Math.round(done/12*100);$("progressText").textContent=`${pct}%`;$("progressBar").style.width=pct+"%"}
 $("back").onclick=showLanding;$("prev").onclick=()=>{if(current>1){current--;render();window.scrollTo({top:0,behavior:"smooth"})}};$("next").onclick=()=>{if(current<12){current++;render();window.scrollTo({top:0,behavior:"smooth"})}};renderLanding();
-</script></body></html>
+</script><script src="cloud-sync.js"></script>
+</body></html>
