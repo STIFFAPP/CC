@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12-Week Conversation Confidence</title>
+<style>
+:root{--bg:#0f1115;--panel:#181b22;--panel2:#20242d;--text:#f3f5f7;--muted:#a9b0bb;--accent:#7c8cff;--green:#4fd18b;--border:#2d323d}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{display:flex;min-height:100vh}.sidebar{width:310px;background:#12151b;border-right:1px solid var(--border);padding:24px 16px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{font-size:20px;font-weight:800;margin:0 8px 5px}.subtitle{color:var(--muted);font-size:13px;margin:0 8px 22px;line-height:1.4}
+.progress{margin:0 8px 20px}.progress-row{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:7px}.bar{height:7px;background:var(--panel2);border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--accent);transition:.25s}
+.week-btn{width:100%;border:0;background:transparent;color:var(--text);text-align:left;padding:12px 12px;border-radius:10px;cursor:pointer;margin:2px 0;display:flex;gap:10px;align-items:center}.week-btn:hover{background:var(--panel)}.week-btn.active{background:var(--accent);color:white}.week-btn.done .num{background:var(--green);color:#08130e}.num{width:28px;height:28px;border-radius:8px;background:var(--panel2);display:grid;place-items:center;font-weight:700;font-size:12px;flex:none}.week-info{min-width:0}.week-title{font-weight:700;font-size:14px}.week-focus{font-size:11px;color:var(--muted);margin-top:2px}.active .week-focus{color:#e7eaff}
+.main{flex:1;max-width:1050px;margin:auto;padding:42px clamp(22px,5vw,65px)}
+.hero{margin-bottom:30px}.eyebrow{color:var(--accent);font-weight:800;text-transform:uppercase;font-size:12px;letter-spacing:.12em}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.05;margin:8px 0 12px}.hero p{color:var(--muted);max-width:760px;line-height:1.6}
+.quote{background:linear-gradient(135deg,#1b1f2a,#171a21);border:1px solid var(--border);padding:20px;border-radius:16px;margin:22px 0;font-size:19px;font-weight:650}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px}.card h3{margin:0 0 12px;font-size:16px}.card p,.card li{color:#d1d6de;line-height:1.55}.card ul{padding-left:20px;margin:8px 0}
+.exercise{display:flex;gap:12px;align-items:flex-start;margin:11px 0}.exercise input{margin-top:4px;width:18px;height:18px;accent-color:var(--green)}.exercise label{line-height:1.45;cursor:pointer}
+.speech{font-size:17px;line-height:1.7;background:#11141a;border-left:4px solid var(--accent);padding:15px 18px;border-radius:8px}
+.phrase{background:var(--panel2);padding:11px 13px;border-radius:10px;margin:8px 0;color:#eef0f4}.phrase b{color:var(--accent)}
+.footer-nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px}.navbtn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:12px 18px;border-radius:10px;cursor:pointer}.navbtn:hover{border-color:var(--accent)}
+@media(max-width:800px){.app{display:block}.sidebar{position:relative;width:100%;height:auto;border-right:0;border-bottom:1px solid var(--border)}.week-list{display:flex;overflow:auto;gap:5px}.week-btn{min-width:130px}.grid{grid-template-columns:1fr}.main{padding-top:25px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">Conversation Confidence</div>
+  <p class="subtitle">12 weeks to become comfortable starting, carrying and ending conversations — without needing a script.</p>
+  <div class="progress">
+    <div class="progress-row"><span>Overall progress</span><span id="progressText">0%</span></div>
+    <div class="bar"><i id="progressBar"></i></div>
+  </div>
+  <div id="weekList" class="week-list"></div>
+</aside>
+
+<main class="main">
+  <section class="hero">
+    <div class="eyebrow" id="eyebrow">Week 1</div>
+    <h1 id="title"></h1>
+    <p id="objective"></p>
+  </section>
+  <div class="quote" id="mantra"></div>
+  <div class="grid">
+    <section class="card"><h3>🎯 This week's target</h3><div id="target"></div></section>
+    <section class="card"><h3>🗣️ Speech</h3><div class="speech" id="speech"></div></section>
+    <section class="card"><h3>🧠 Pointers</h3><div id="pointers"></div></section>
+    <section class="card"><h3>💬 Conversation tools</h3><div id="tools"></div></section>
+    <section class="card"><h3>🏋️ Daily practice</h3><div id="practice"></div></section>
+    <section class="card"><h3>📈 End-of-week test</h3><div id="test"></div></section>
+  </div>
+  <div class="footer-nav"><button class="navbtn" id="prev">← Previous week</button><button class="navbtn" id="next">Next week →</button></div>
+</main>
+</div>
+
+<script>
+const weeks=[
+{n:1,title:"Just Start",focus:"Initiating conversations",objective:"Destroy the idea that you need an interesting opening. Your only job is to start.",mantra:"I don't need an impressive opener. I only need to start.",target:["3 small conversations per day","Use simple situational openers","Don't plan the second sentence before they answer"],speech:"I don't need an impressive opener. I only need to start. The first sentence doesn't need to be interesting. I'm not performing. I'm simply starting a conversation.",pointers:["Use the environment: “Busy today?” / “Have you been here before?”","Use directness: “Hey, I wanted to come and say hi. I'm [name].”","After the opener, stop planning and listen."],tools:["“How's your day going?”","“How's your week been?”","“Have you been here before?”","“How do you know everyone here?”"],practice:["Start 3 conversations today.","Have one conversation with someone you would normally ignore.","Notice that the opener does not need to be clever."],test:"Start a conversation with someone you would not normally talk to."},
+{n:2,title:"Listen for Threads",focus:"Turning answers into material",objective:"Stop asking yourself “What do I say?” and start asking “What did they just give me?”",mantra:"I don't need to invent conversation. People give me material.",target:["Identify 3 conversational threads each day","Follow what was actually said","Avoid jumping randomly to a new question"],speech:"I don't need to invent conversation. People give me material. I listen. I notice. I follow.",pointers:["If they mention Spain: ask about Spain, travel, the experience or why they went.","Facts, experiences, opinions and stories are all usable threads.","Follow the most interesting thread rather than searching for the perfect question."],tools:["“Which part?”","“What made you go there?”","“Did you enjoy it?”","“What was your favourite part?”"],practice:["In every conversation, identify 3 things you could follow up on.","Pick one thread and stay with it for several exchanges.","Notice when you ask a question that ignores what they just said."],test:"Have a 5-minute conversation using only threads the other person gives you."},
+{n:3,title:"Threading",focus:"Keeping one subject alive",objective:"Learn that one topic can create several minutes of conversation.",mantra:"I don't need ten topics. One topic can create ten minutes of conversation.",target:["Stay on one subject before changing topics","Explore rather than interrogate","Respond before asking the next question"],speech:"I don't need ten topics. One topic can create ten minutes of conversation.",pointers:["Question → answer → follow the answer.","Add your reaction before another question.","Don't change topic just because you have another question ready."],tools:["“Do you actually enjoy it?”","“What made you get into that?”","“How long have you been doing it?”","“I don't think I could do that because…”"],practice:["Have one 5-minute conversation each day.","Stay on one subject until the interesting threads run out.","Make at least one personal contribution in each conversation."],test:"Keep one ordinary topic going for at least 5 minutes without turning it into an interview."},
+{n:4,title:"Stop Hiding Yourself",focus:"Reciprocity and self-disclosure",objective:"Break the habit of making everyone else interesting while keeping yourself invisible.",mantra:"People cannot connect with a version of me that I never reveal.",target:["Share 3 things about yourself each day","Use the 50/50 rule","Respond + contribute + explore"],speech:"People cannot connect with a version of me that I never reveal. I don't need to hide behind questions. I can let people know me.",pointers:["If they mention travel, share where you want to go.","If they mention work, share what you do.","Don't answer with “I'm alright, what about you?” every time."],tools:["“I've actually been wanting to…”","“I do something similar…”","“Personally, I prefer…”","“That reminds me of something that happened to me…”"],practice:["Reveal 3 ordinary facts/opinions about yourself.","Tell one short personal story.","Catch yourself redirecting the spotlight and bring some of it back to you."],test:"Have a conversation where the other person leaves knowing at least 5 genuine things about you."},
+{n:5,title:"Opinions",focus:"Expressing personality",objective:"Make your conversations more interesting by contributing genuine preferences and opinions.",mantra:"I don't need everyone to agree with me. I am allowed to have preferences.",target:["3 genuine opinions per day","Stop automatically agreeing","Give a reason for your preference"],speech:"I don't need everyone to agree with me. I am allowed to have preferences. I am allowed to disagree respectfully. My personality is allowed to take up space.",pointers:["Replace “whatever you think” with your actual preference.","Don't manufacture disagreement; just be honest.","Opinions create personality where facts alone create interviews."],tools:["“Personally, I prefer…”","“I'm not convinced. I actually think…”","“For me, the best part is…”","“I'd choose X over Y because…”"],practice:["Express 3 real opinions today.","Disagree harmlessly once without apologising.","Explain one preference with a short reason."],test:"Have a conversation where you express at least 3 genuine opinions without becoming argumentative."},
+{n:6,title:"Stories",focus:"Being interesting as well as interested",objective:"Learn to expand ordinary experiences into short stories instead of giving flat answers.",mantra:"I don't have to be entertaining every second. But I have experiences worth sharing.",target:["Prepare 5 stories","Use situation → problem → reaction → outcome","Don't memorise word-for-word"],speech:"I don't have to be entertaining every second. But I have experiences worth sharing.",pointers:["Use something funny from work, the gym, travel, friends or your past.","Keep stories short and relevant.","Let the other person react instead of rushing into another story."],tools:["“Actually, something ridiculous happened…”","“That reminds me of…”","“I've got a funny story about that…”","“I didn't expect it to go that way…”"],practice:["Write 5 story prompts.","Tell one story each day.","Practise ending a story instead of adding unnecessary detail."],test:"Tell 3 different short stories naturally in conversations this week."},
+{n:7,title:"Conversation Flow",focus:"Changing subjects naturally",objective:"Learn to move between subjects without needing perfect transitions.",mantra:"Conversations don't need perfect transitions. They can wander.",target:["Make 3 natural topic transitions","Use bridges","Allow the conversation to wander"],speech:"Conversations don't need perfect transitions. They can wander. I don't need to control everything.",pointers:["Use what they just mentioned as the bridge.","Random subject changes are normal.","Don't force a topic that has run out of energy."],tools:["“Speaking of…”","“That actually reminds me…”","“You mentioned X earlier…”","“Random question…”","“Anyway…”"],practice:["Move through 3 different topics in one conversation.","Notice how real conversations naturally jump.","Practise one deliberate topic change without overthinking the bridge."],test:"Have a 10-minute conversation that naturally moves across at least 3 subjects."},
+{n:8,title:"Silence",focus:"Being comfortable with pauses",objective:"Stop treating a 2–3 second pause as evidence that the conversation is failing.",mantra:"I don't have to rescue every silence. I can pause. I can think.",target:["Allow 2–3 seconds of silence","Don't fire questions to fill gaps","Let the other person contribute"],speech:"I don't have to rescue every silence. I can pause. I can think. The conversation doesn't depend entirely on me.",pointers:["Smile, breathe and think.","A pause is normal human conversation.","If genuinely blank, use a simple bridge instead of panicking."],tools:["“Hmm…”","“Actually…”","“You know what…”","“Random question…”","“Speaking of that…”"],practice:["Allow one deliberate pause in a conversation each day.","Notice the urge to fill silence.","Let the other person restart the conversation sometimes."],test:"Have a conversation where you experience silence without immediately trying to repair it."},
+{n:9,title:"Playfulness",focus:"Humour and light flirting",objective:"Move beyond interview-style conversation and introduce playful energy.",mantra:"I don't have to be serious all the time. I can play.",target:["One playful comment per day","Use light teasing, never humiliation","Don't wait for certainty before being playful"],speech:"I don't have to be serious all the time. I can play. I can joke. I can flirt. I don't need to know whether the joke will land before I say it.",pointers:["Play with the situation rather than attacking someone personally.","Keep teasing light and reciprocal.","If a joke doesn't land, move on without embarrassment."],tools:["“So basically you're saying…”","“You seem very confident.”","“I feel like you're trouble.”","“I'm mostly confident. It's a good act.”"],practice:["Make one playful comment each day.","Practise smiling after a joke instead of explaining it.","Use humour with friends first, then strangers."],test:"Have a conversation where you create at least one playful moment naturally."},
+{n:10,title:"Attractive Women",focus:"Applying the skills under pressure",objective:"Use everything you've learned with women you genuinely find attractive.",mantra:"She isn't an exam. I'm meeting another person.",target:["3 conversations this week with women you genuinely find attractive","Focus on the next 30 seconds","Don't wait for certainty"],speech:"She isn't an exam. I'm not auditioning. I'm not trying to prove myself. I'm meeting another person. I'm interested in her, and she can decide whether she's interested in me.",pointers:["Direct opener: “Hey, I wanted to come and say hi. I'm [name].”","Observe → thread → respond → share → play.","You do not need to get a number for the interaction to count."],tools:["“How's your day going?”","“I wanted to come and say hi.”","“What brings you here?”","“I'm enjoying talking to you.”"],practice:["Have 3 genuine conversations this week.","Do not mentally jump ahead to the outcome.","After each interaction, write what you learned rather than whether you “won”."],test:"Approach and have a normal conversation with someone you're genuinely attracted to."},
+{n:11,title:"Hold the Conversation",focus:"10–15 minute conversations",objective:"Combine questions, reactions, stories, opinions, humour and self-disclosure into sustained conversation.",mantra:"I don't need endless topics. I can explore people deeply.",target:["3 conversations of 10+ minutes","Cycle between asking and contributing","Stay present rather than planning ahead"],speech:"I don't need endless topics. I can explore people deeply. I can contribute. I can tell stories. I can change direction. I can keep a conversation moving.",pointers:["Ask → listen → respond → share → explore → play.","Don't carry the entire interaction yourself.","If energy drops, change topic or allow the conversation to end."],tools:["“What made you get into that?”","“If money wasn't an issue, what would you do?”","“That's interesting because…”","“That reminds me…”"],practice:["Have 3 conversations of 10+ minutes.","Use at least one story and one opinion in each.","Let the other person carry part of the interaction."],test:"Hold a 10–15 minute conversation without relying on a question checklist."},
+{n:12,title:"Natural Conversation",focus:"Integration",objective:"Remove the training wheels. Be interested and interesting without consciously running a formula.",mantra:"I don't need a script. I listen, respond, share, ask, joke and express myself.",target:["Use the skills without naming them","Be comfortable starting and ending conversations","Accept that not every conversation becomes something"],speech:"I don't need a script. I don't need perfect words. I don't need to entertain people. I listen. I respond. I share. I ask. I joke. I express myself. I allow silence. I let people see me. If the conversation dies, it dies. I don't panic. I can start another one. I can walk away. I can approach again.",pointers:["Be interested + be interesting.","Don't measure success by getting a number or being liked.","Your goal is conversational freedom, not perfect conversations."],tools:["Use any opener that fits the moment.","Follow whatever genuinely interests you.","End naturally: “I've enjoyed talking to you. Have a good one.”"],practice:["Have several spontaneous conversations without preparing topics.","Notice when you naturally use threading, sharing, stories and playfulness.","Keep the skills, drop the mental checklist."],test:"Have a conversation from start to finish without consciously planning the next line."}
+];
+
+const state=JSON.parse(localStorage.getItem("conversationPlanState")||"{}");
+let current=Number(localStorage.getItem("conversationPlanWeek")||1);
+const $=id=>document.getElementById(id);
+
+function render(){
+ const w=weeks[current-1];
+ $("eyebrow").textContent=`Week ${w.n} · ${w.focus}`;
+ $("title").textContent=w.title;
+ $("objective").textContent=w.objective;
+ $("mantra").textContent=w.mantra;
+ $("target").innerHTML=w.target.map(x=>`<div class="exercise"><input type="checkbox" ${state[`w${w.n}-t-${x}`]?"checked":""} data-key="w${w.n}-t-${x}"><label>${x}</label></div>`).join("");
+ $("speech").textContent=w.speech;
+ $("pointers").innerHTML="<ul>"+w.pointers.map(x=>`<li>${x}</li>`).join("")+"</ul>";
+ $("tools").innerHTML=w.tools.map((x,i)=>`<div class="phrase"><b>${i+1}.</b> ${x}</div>`).join("");
+ $("practice").innerHTML=w.practice.map(x=>`<div class="exercise"><input type="checkbox" ${state[`w${w.n}-p-${x}`]?"checked":""} data-key="w${w.n}-p-${x}"><label>${x}</label></div>`).join("");
+ $("test").innerHTML=`<p>${w.test}</p><div class="exercise"><input id="weekDone" type="checkbox" ${state[`w${w.n}-done`]?"checked":""}><label><b>Mark Week ${w.n} complete</b></label></div>`;
+ $("prev").disabled=current===1;$("next").disabled=current===12;
+ document.querySelectorAll("[data-key]").forEach(el=>el.onchange=()=>{state[el.dataset.key]=el.checked;save();});
+ $("weekDone").onchange=e=>{state[`w${w.n}-done`]=e.target.checked;save();};
+ document.querySelectorAll(".week-btn").forEach(b=>b.classList.toggle("active",Number(b.dataset.week)===current));
+ updateProgress();
+ localStorage.setItem("conversationPlanWeek",current);
+}
+function save(){localStorage.setItem("conversationPlanState",JSON.stringify(state));buildWeekList();render();}
+function buildWeekList(){
+ $("weekList").innerHTML=weeks.map(w=>`<button class="week-btn ${current===w.n?"active":""} ${state[`w${w.n}-done`]?"done":""}" data-week="${w.n}"><span class="num">${w.n}</span><span class="week-info"><div class="week-title">${w.title}</div><div class="week-focus">${w.focus}</div></span></button>`).join("");
+ document.querySelectorAll(".week-btn").forEach(b=>b.onclick=()=>{current=Number(b.dataset.week);render();window.scrollTo({top:0,behavior:"smooth"});});
+}
+function updateProgress(){
+ const done=weeks.filter(w=>state[`w${w.n}-done`]).length;
+ const pct=Math.round(done/weeks.length*100);
+ $("progressText").textContent=`${pct}%`;
+ $("progressBar").style.width=pct+"%";
+}
+$("prev").onclick=()=>{if(current>1){current--;render();window.scrollTo({top:0,behavior:"smooth"})}};
+$("next").onclick=()=>{if(current<12){current++;render();window.scrollTo({top:0,behavior:"smooth"})}};
+buildWeekList();render();
+</script>
+</body>
+</html>
