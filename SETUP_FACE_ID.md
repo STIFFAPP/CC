@@ -1,13 +1,21 @@
-# Cloud Sync + Face ID / Touch ID setup
+# Confidence Hub — Cloud Sync + Passkeys
 
-1. Upload this entire folder to GitHub Pages.
-2. In Supabase Dashboard open **SQL Editor**, paste `SUPABASE_SETUP.sql`, and Run it once.
-3. In **Authentication > URL Configuration**, set **Site URL** to your final GitHub Pages URL (for example `https://USERNAME.github.io/REPO/`). Add the same URL to Redirect URLs.
-4. In **Authentication > Passkeys**, enable Passkey authentication.
-5. Set **Relying Party ID** to the hostname only: normally `USERNAME.github.io` for GitHub Pages. Do not include `https://` or `/REPO/`.
-6. Set **Relying Party Origins** to the origin only: normally `https://USERNAME.github.io` (no repo path).
-7. Open the app. On first use choose **First-time email sign-in**. Open the email link and return to the app.
-8. When signed in choose **Add Face ID / Touch ID** and approve the Apple passkey prompt.
-9. On your other Apple device, open the same GitHub Pages app and choose **Unlock with Face ID / Passkey**. If iCloud Keychain sync is enabled, the passkey can be available across your Apple devices.
+Configured for:
+- GitHub Pages: https://stiffapp.github.io/CC/
+- Supabase project: https://ozewcnbqyiyqjqldnjhp.supabase.co
+- WebAuthn RP ID: stiffapp.github.io
+- WebAuthn origin: https://stiffapp.github.io
 
-Important: Passkeys are currently experimental in Supabase. Your publishable key is intentionally included in browser code; never put a secret/service-role key in this repository. Row Level Security restricts each signed-in user to their own sync row.
+The Supabase database table `user_app_data` has already been created in your current project. You do not need to run `SUPABASE_SETUP.sql` again unless you create a new Supabase project.
+
+## First sign-in
+1. Upload the contents of this folder to the root of the GitHub repository that publishes `/CC/`.
+2. Open https://stiffapp.github.io/CC/.
+3. Press **First-time email sign-in** and enter your email address.
+4. Open the secure link Supabase emails you and return to the Hub.
+5. When the Hub shows **Synced**, press **Add Face ID / Touch ID** and approve the passkey prompt.
+
+## Other Apple devices
+Open the same Hub and choose **Unlock with Face ID / Passkey**. Availability across devices depends on where your passkey is stored/synced (for example iCloud Keychain).
+
+Note: Supabase passkey support is experimental as of September 2026 and requires supabase-js v2.105.0+ plus the experimental passkey client option. This bundle is configured accordingly.

@@ -23,6 +23,6 @@ Upload `index.html` to your repository and enable Pages from the main branch / r
 1. Upload the new app folder to `apps/` in GitHub (or host it elsewhere).
 2. Open the Hub and press **+ Add App**.
 3. Enter its title, icon, description and path/URL.
-4. When signed in, the custom app catalogue syncs through the existing Supabase `app_sync` record.
+4. When signed in, the custom app catalogue syncs through the Supabase `user_app_data` record.
 
 For permanent repository-defined apps, edit `config/apps.json`. Those tiles load automatically on every device.
