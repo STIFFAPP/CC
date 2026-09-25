@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10192d">
+  <meta name="description" content="An ADHD-friendly daily routine, reset and planning app.">
+  <title>KB Life Manager</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to today</a>
+  <header class="app-header">
+    <div class="brand" aria-label="KB Life Manager">
+      <span class="brand-mark" aria-hidden="true">KB</span>
+      <span>Life Manager</span>
+    </div>
+    <button class="icon-button" id="openSettings" type="button" aria-label="Open settings">⚙</button>
+  </header>
+
+  <main id="main">
+    <section id="todayView" class="view active" aria-labelledby="todayHeading">
+      <div class="date-strip">
+        <button class="date-step" id="prevDay" type="button" aria-label="Previous day">‹</button>
+        <label class="date-control">
+          <span id="todayHeading">Plan date</span>
+          <input id="activeDate" type="date">
+        </label>
+        <button class="date-step" id="nextDay" type="button" aria-label="Next day">›</button>
+      </div>
+
+      <section class="mode-card" id="modeChooser">
+        <div>
+          <p class="eyebrow">Choose one routine for this date</p>
+          <h1>What kind of day is it?</h1>
+          <p>Normal Day and Night Shift can never run on the same date.</p>
+        </div>
+        <div class="mode-grid">
+          <button class="mode-button normal" data-mode="normal" type="button">
+            <strong>06:00 Early Shift + Gym</strong><span>03:50 wake · 90-minute gym after work</span>
+          </button>
+          <button class="mode-button night" data-mode="night" type="button">
+            <strong>Night Shift + Gym</strong><span>17:40 wake · 90-minute gym before work</span>
+          </button>
+          <button class="mode-button open" data-mode="open" type="button">
+            <strong>Open / Rest Day</strong><span>No timed routine</span>
+          </button>
+        </div>
+      </section>
+
+      <div id="dayWorkspace" hidden>
+        <section class="now-card" id="nowCard" aria-live="polite">
+          <div>
+            <p class="eyebrow">REJOIN THE DAY</p>
+            <h2 id="nowTitle">Start from now</h2>
+            <p id="nowMeta">Past tasks stay in the past. No catch-up.</p>
+          </div>
+          <button class="primary-button" id="jumpNow" type="button">Show what’s now</button>
+        </section>
+
+        <section class="priority-card" id="priorityCard">
+          <div class="section-heading">
+            <div><p class="eyebrow">ONLY THREE</p><h2>Today’s Top 3</h2></div>
+            <span id="prioritySaveState" class="save-state">Saved locally</span>
+          </div>
+          <label><span class="priority-tag must">MUST</span><input id="priorityMust" maxlength="140" placeholder="One essential task"></label>
+          <label><span class="priority-tag should">SHOULD</span><input id="priorityShould" maxlength="140" placeholder="One useful task"></label>
+          <label><span class="priority-tag bonus">BONUS</span><input id="priorityBonus" maxlength="140" placeholder="Optional task"></label>
+          <label class="first-action"><span>First physical action for MUST</span><input id="firstAction" maxlength="180" placeholder="What can I physically do first?"></label>
+        </section>
+
+        <section class="finish-card" id="finishCard">
+          <div>
+            <p class="eyebrow">LATE-FINISH ADJUSTMENT</p>
+            <h2>When did work actually finish?</h2>
+            <p id="finishHelp">Post-work essentials move with this time. Nothing optional becomes overdue.</p>
+          </div>
+          <label><span>Actual finish</span><input id="actualFinish" type="time"></label>
+          <div id="sleepWarning" class="sleep-warning" hidden></div>
+          <div class="alert-actions">
+            <button id="enableAlerts" class="secondary-button" type="button">Enable task alerts</button>
+            <button id="exportCalendar" class="secondary-button" type="button">Add routine to calendar</button>
+          </div>
+        </section>
+
+        <section class="routine-section" aria-labelledby="routineHeading">
+          <div class="section-heading sticky-heading">
+            <div><p class="eyebrow" id="modeEyebrow">TODAY</p><h2 id="routineHeading">Routine</h2></div>
+            <div class="progress-ring" id="progressRing" aria-label="Routine progress"><span id="progressText">0%</span></div>
+          </div>
+          <p class="calm-note">If you miss something, leave it. Continue with what fits now.</p>
+          <div id="optionalTasks" class="optional-tasks" hidden></div>
+          <div id="taskList" class="task-list"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="toolsView" class="view" aria-labelledby="toolsHeading">
+      <div class="page-heading"><p class="eyebrow">WHEN THE DAY GOES SIDEWAYS</p><h1 id="toolsHeading">Reset tools</h1><p>Choose the smallest tool that helps. Completing everything is not the goal.</p></div>
+      <div id="toolCards" class="tool-cards"></div>
+    </section>
+
+    <section id="captureView" class="view" aria-labelledby="captureHeading">
+      <div class="page-heading"><p class="eyebrow">CAPTURE IT, THEN RETURN</p><h1 id="captureHeading">Not Now — Later</h1><p>Ideas belong here so they do not steal the task you are doing.</p></div>
+      <form id="captureForm" class="capture-form">
+        <label for="captureInput">What just came to mind?</label>
+        <div><input id="captureInput" maxlength="240" autocomplete="off" placeholder="Idea, task, purchase, video, research…"><button class="primary-button" type="submit">Capture</button></div>
+      </form>
+      <div class="capture-filters" aria-label="Capture filters">
+        <button class="filter-chip active" data-filter="all" type="button">All</button>
+        <button class="filter-chip" data-filter="idea" type="button">Ideas</button>
+        <button class="filter-chip" data-filter="task" type="button">Tasks</button>
+        <button class="filter-chip" data-filter="research" type="button">Research</button>
+        <button class="filter-chip" data-filter="purchase" type="button">Purchases</button>
+      </div>
+      <div id="captureList" class="capture-list"></div>
+    </section>
+
+    <section id="journalView" class="view" aria-labelledby="journalHeading">
+      <div class="page-heading"><p class="eyebrow">REFLECT, DON’T JUDGE</p><h1 id="journalHeading">Journal</h1></div>
+      <section class="journal-card">
+        <div class="section-heading"><div><p class="eyebrow">FOR SELECTED DATE</p><h2>5-minute journal</h2></div><span class="save-state">Auto-saved</span></div>
+        <div id="journalFields" class="journal-fields"></div>
+      </section>
+    </section>
+
+    <section id="extrasView" class="view" aria-labelledby="extrasHeading">
+      <div class="page-heading"><p class="eyebrow">MORE TOOLS</p><h1 id="extrasHeading">Extras</h1><p>Open the section you need. Everything stays separate and easy to return to.</p></div>
+      <div class="extras-grid">
+        <button class="extra-card" data-open-view="edenView" type="button"><span class="extra-icon">▣</span><strong>Eden GMC</strong><small>Weekend job preparation and checklists</small><span class="extra-arrow">›</span></button>
+        <button class="extra-card" data-open-view="weeklyView" type="button"><span class="extra-icon">✓</span><strong>Sunday Weekly Reset</strong><small>60-minute calendar, health, business and life reset</small><span class="extra-arrow">›</span></button>
+        <button class="extra-card" data-open-view="rulesView" type="button"><span class="extra-icon">≡</span><strong>ADHD Planning Rules</strong><small>Your clear rules for resuming without catching up</small><span class="extra-arrow">›</span></button>
+        <button class="extra-card" data-open-view="goalsView" type="button"><span class="extra-icon">3</span><strong>Maximum Three Active Goals</strong><small>12-week goal templates and physical next actions</small><span class="extra-arrow">›</span></button>
+      </div>
+    </section>
+
+    <section id="edenView" class="view" aria-labelledby="edenHeading">
+      <button class="back-button" data-open-view="extrasView" type="button">‹ Extras</button>
+      <div class="page-heading"><p class="eyebrow">EDEN GMC</p><h1 id="edenHeading">Weekend jobs</h1><p>Preparation, job steps and a calm close-down.</p></div>
+      <div id="businessRoutines" class="tool-cards"></div>
+    </section>
+
+    <section id="weeklyView" class="view" aria-labelledby="weeklyHeading">
+      <button class="back-button" data-open-view="extrasView" type="button">‹ Extras</button>
+      <div class="page-heading"><p class="eyebrow">SUNDAY · 60 MINUTES</p><h1 id="weeklyHeading">Weekly Reset</h1></div>
+      <section class="weekly-card">
+        <div class="section-heading"><div><p class="eyebrow">SUNDAY · 60 MINUTES</p><h2>Weekly Reset</h2></div><button class="secondary-button" id="clearWeekly" type="button">Start new week</button></div>
+        <div id="weeklyReset"></div>
+      </section>
+    </section>
+
+    <section id="rulesView" class="view" aria-labelledby="rulesHeading">
+      <button class="back-button" data-open-view="extrasView" type="button">‹ Extras</button>
+      <div class="page-heading"><p class="eyebrow">KEEP IT SIMPLE</p><h1 id="rulesHeading">ADHD Planning Rules</h1></div>
+      <section class="rules-card"><h2>ADHD planning rules</h2><ol id="rulesList"></ol></section>
+    </section>
+
+    <section id="goalsView" class="view" aria-labelledby="goalsHeading">
+      <button class="back-button" data-open-view="extrasView" type="button">‹ Extras</button>
+      <div class="page-heading"><p class="eyebrow">MAXIMUM THREE ACTIVE GOALS</p><h1 id="goalsHeading">12-week goals</h1></div>
+      <section class="goal-card"><div class="section-heading"><div><p class="eyebrow">MAXIMUM THREE ACTIVE GOALS</p><h2>12-week goal template</h2></div></div><div id="goalEditor"></div></section>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-view="todayView" type="button"><span>●</span>Today</button>
+    <button class="nav-button" data-view="toolsView" type="button"><span>↻</span>Reset</button>
+    <button class="nav-button" data-view="captureView" type="button"><span>＋</span>Later</button>
+    <button class="nav-button" data-view="journalView" type="button"><span>✎</span>Journal</button>
+    <button class="nav-button" data-view="extrasView" type="button"><span>•••</span>Extras</button>
+  </nav>
+
+  <dialog id="taskDialog" class="app-dialog">
+    <form method="dialog">
+      <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+      <p class="eyebrow" id="dialogTime"></p>
+      <h2 id="dialogTitle"></h2>
+      <p id="dialogDescription"></p>
+      <div id="dialogSubtasks" class="dialog-subtasks"></div>
+      <div id="timerBox" class="timer-box" hidden>
+        <div id="timerDisplay" class="timer-display">05:00</div>
+        <div><button id="timerStart" class="primary-button" type="button">Start timer</button><button id="timerReset" class="secondary-button" type="button">Reset</button></div>
+      </div>
+      <div class="dialog-actions">
+        <button id="dialogSkip" class="secondary-button" type="button">Leave for today</button>
+        <button id="dialogComplete" class="primary-button" type="button">Mark complete</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="settingsDialog" class="app-dialog settings-dialog">
+    <form method="dialog">
+      <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+      <p class="eyebrow">APP SETTINGS</p><h2>Keep the system yours</h2>
+      <label class="setting-row"><span><strong>Minoxidil today</strong><small>Show it only when your separate treatment plan says it is appropriate.</small></span><input id="minoxidilToggle" type="checkbox" role="switch"></label>
+      <label class="setting-row"><span><strong>100 push-ups today</strong><small>Add an optional push-up checklist item for the selected date.</small></span><input id="pushupsToggle" type="checkbox" role="switch"></label>
+      <label class="setting-row"><span><strong>STIFF today</strong><small>Add an optional STIFF checklist item for the selected date.</small></span><input id="stiffToggle" type="checkbox" role="switch"></label>
+      <label class="setting-row"><span><strong>Gentle vibration</strong><small>Vibrate on supported phones when a task is completed.</small></span><input id="vibrationToggle" type="checkbox" role="switch"></label>
+      <div class="settings-actions">
+        <button id="exportData" type="button" class="secondary-button">Download backup</button>
+        <label class="secondary-button file-button">Restore backup<input id="importData" type="file" accept="application/json"></label>
+        <button id="clearDate" type="button" class="danger-button">Clear selected date</button>
+      </div>
+      <p class="privacy-note">Your checks, notes and priorities stay in this browser on this device. Another person using the same GitHub link gets their own separate data.</p>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

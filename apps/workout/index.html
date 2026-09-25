@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e12">
+  <meta name="description" content="KB's 12-week gym plan with fast one-side weight tracking.">
+  <title>KB's 12 Week Workout</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0e12'/%3E%3Cpath d='M11 26h7v12h-7m35-12h7v12h-7M18 23h6v18h-6m22-18h6v18h-6M24 29h16v6H24z' fill='%23f6c445'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="guide-styles.css">
+  <link rel="stylesheet" href="structure-styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">KB</span><div><h1>12 Week Workout</h1><p>One-side weight tracker</p></div></div>
+    <button class="icon-button" id="settingsBtn" aria-label="Open settings">⚙</button>
+  </header>
+
+  <main>
+    <div id="workoutPage">
+    <section class="controls" aria-label="Choose workout">
+      <label class="plan-control">Plan <select id="planSelect" aria-label="Workout plan"></select></label>
+      <label class="week-control">Week <select id="weekSelect" aria-label="Workout week"></select></label>
+      <div class="day-tabs" id="dayTabs" role="tablist" aria-label="Workout day"></div>
+    </section>
+
+    <section class="session-head">
+      <div><span class="eyebrow" id="phaseLabel"></span><h2 id="sessionTitle"></h2><p id="extraWork"></p></div>
+      <div class="progress-ring" id="progressRing" aria-label="Workout completion"><strong id="progressPercent">0%</strong><span>done</span></div>
+    </section>
+
+    <section id="beforeSection" class="accessory-section" hidden></section>
+    <section class="main-exercises-head" aria-label="Main exercises"><span class="accessory-position">EXERCISES</span><h3>Main workout</h3><p>Complete the exercises below in order.</p></section>
+    <section id="exerciseList" class="exercise-list" aria-live="polite"></section>
+    <section id="afterSection" class="accessory-section" hidden></section>
+    <div class="empty" id="emptyState" hidden>No exercises are listed for this day.</div>
+    </div>
+
+    <section id="exercisePage" class="exercise-page" hidden aria-live="polite">
+      <button class="back-button" id="backToWorkout">← Back to workout</button>
+      <div class="exercise-detail-head">
+        <span class="eyebrow">Exercise guide</span>
+        <h2 id="detailTitle"></h2>
+        <p id="detailMatch" class="detail-match"></p>
+      </div>
+      <div id="detailLoading" class="detail-loading">Loading demonstration…</div>
+      <div id="detailContent" hidden>
+        <div class="demo-images" id="demoImages"></div>
+        <a id="guideSource" class="guide-source" target="_blank" rel="noopener noreferrer" hidden>Open full demonstration ↗</a>
+        <div class="detail-grid">
+          <section class="instruction-card"><h3>How to perform it</h3><ol id="detailInstructions"></ol></section>
+          <aside class="form-card"><h3>Exercise details</h3><dl id="exerciseFacts"></dl><p class="form-note">Use a controlled weight and stop if you feel sharp pain.</p></aside>
+        </div>
+        <p class="exercise-credit" id="exerciseCredit">Demonstration data and images: Free Exercise DB, public domain.</p>
+      </div>
+      <div id="detailError" class="detail-error" hidden><h3>Guide unavailable</h3><p>The demonstration could not be loaded. Check your connection and try again.</p><button class="secondary" id="retryGuide">Try again</button></div>
+    </section>
+
+    <section id="timerPage" class="timer-page" hidden aria-live="polite">
+      <button class="back-button" id="backFromTimer">← Back to workout</button>
+      <div class="timer-shell">
+        <span class="eyebrow">20-minute HIIT</span>
+        <p id="timerRound" class="timer-round">Interval 1 of 20</p>
+        <h2 id="timerAction">JOG</h2>
+        <div id="timerCountdown" class="timer-countdown" role="timer">01:00</div>
+        <p id="timerNext" class="timer-next">Next: RUN</p>
+        <div class="timer-progress"><span id="timerProgressBar"></span></div>
+        <div class="timer-controls">
+          <button class="primary" id="pauseTimer">Pause</button>
+          <button class="secondary" id="restartTimer">Restart</button>
+        </div>
+        <p class="timer-note">Alternate one minute jogging and one minute running. The instruction changes automatically.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="session-footer">
+    <button class="secondary" id="resetDayBtn">Reset this day</button>
+    <button class="primary" id="nextSetBtn">Next unfinished set</button>
+  </footer>
+
+  <dialog id="settingsDialog">
+    <form method="dialog" class="dialog-card">
+      <div class="dialog-head"><h2>Settings</h2><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
+      <label class="setting-row"><span>Weight step<small>Used by the + and − buttons</small></span><select id="stepSelect"><option value="1">1 kg</option><option value="1.25">1.25 kg</option><option value="2.5">2.5 kg</option><option value="5">5 kg</option></select></label>
+      <label class="setting-row"><span>Weight unit</span><select id="unitSelect"><option value="kg">kg</option><option value="lb">lb</option></select></label>
+      <p class="storage-note">Your entries are saved on this device and browser.</p>
+      <button class="primary full" value="done">Done</button>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="data.js"></script>
+  <script src="guides.js"></script>
+  <script src="workout-structure.js"></script>
+  <script src="data-v2.js"></script>
+  <script src="data-v1.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

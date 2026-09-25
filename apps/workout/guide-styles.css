@@ -1,0 +1,16 @@
+.demo-images {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.guide-source {
+  display: inline-flex;
+  margin: 2px 0 16px;
+  color: var(--accent);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.guide-source:hover,
+.guide-source:focus-visible {
+  text-decoration: underline;
+}

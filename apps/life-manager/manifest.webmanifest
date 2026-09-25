@@ -1,0 +1,10 @@
+{
+  "name": "KB Life Manager",
+  "short_name": "KB Life",
+  "description": "An ADHD-friendly daily routine, reset and planning app.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#08101f",
+  "theme_color": "#10192d",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
