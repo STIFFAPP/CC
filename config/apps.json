@@ -1,0 +1,29 @@
+[
+  {
+    "id": "stiff",
+    "name": "STIFF",
+    "description": "Open your private STIFF course and continue through its phases, lessons and exercises.",
+    "desc": "Open your private STIFF course and continue through its phases, lessons and exercises.",
+    "icon": "\u26a1",
+    "href": "apps/stiff/index.html",
+    "priority": true
+  },
+  {
+    "id": "life-manager",
+    "name": "Life Manager",
+    "description": "Your day-to-day life manager, reset tools and practical support for keeping things moving.",
+    "desc": "Your day-to-day life manager, reset tools and practical support for keeping things moving.",
+    "icon": "\ud83e\udded",
+    "href": "apps/life-manager/index.html",
+    "priority": true
+  },
+  {
+    "id": "workout",
+    "name": "12-Week Workout",
+    "description": "Open your 12-week workout programme and weight tracker.",
+    "desc": "Open your 12-week workout programme and weight tracker.",
+    "icon": "\ud83c\udfcb\ufe0f",
+    "href": "apps/workout/index.html",
+    "priority": true
+  }
+]

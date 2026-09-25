@@ -1,6 +1,6 @@
 (function(){
 const SUPABASE_URL='https://niniyaqrrxqspftbrpdl.supabase.co'; const SUPABASE_KEY='sb_publishable_LCX3JabpD0-R5j2rrPD-Ow_D7BaBQPa';
-const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-'];
+const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-','hubCustomApps'];
 let sb=null,user=null,pushTimer=null,applying=false;
 function tracked(k){return SYNC_PREFIXES.some(p=>k===p||k.startsWith(p));}
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
