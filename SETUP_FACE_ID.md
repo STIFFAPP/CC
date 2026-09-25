@@ -2,7 +2,7 @@
 
 Configured for:
 - GitHub Pages: https://stiffapp.github.io/CC/
-- Supabase project: https://ozewcnbqyiyqjqldnjhp.supabase.co
+- Supabase project: https://cxrfobwwjfnzwjunzrvs.supabase.co
 - WebAuthn RP ID: stiffapp.github.io
 - WebAuthn origin: https://stiffapp.github.io
 

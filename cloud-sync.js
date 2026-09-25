@@ -1,6 +1,6 @@
 (function(){
-const SUPABASE_URL='https://ozewcnbqyiyqjqldnjhp.supabase.co';
-const SUPABASE_KEY='sb_publishable_sp0VleP5gFk-mG-c2mVAfA_3Pl5pzCr';
+const SUPABASE_URL='https://cxrfobwwjfnzwjunzrvs.supabase.co';
+const SUPABASE_KEY='sb_publishable_a7nF_FXsb6HRHPxQsUDfWQ_DPsx2jnS';
 const SYNC_APP_KEY='confidence-hub';
 const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-','hubCustomApps'];
 let sb=null,user=null,pushTimer=null,applying=false;
