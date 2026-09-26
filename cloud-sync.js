@@ -2,7 +2,7 @@
 const SUPABASE_URL='https://cxrfobwwjfnzwjunzrvs.supabase.co';
 const SUPABASE_KEY='sb_publishable_a7nF_FXsb6HRHPxQsUDfWQ_DPsx2jnS';
 const SYNC_APP_KEY='confidence-hub';
-const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-','hubCustomApps','hubTileOrder'];
+const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-','hubCustomApps','hubTileOrder','hubCategories','hubCategoryMap'];
 let sb=null,user=null,pushTimer=null,applying=false;
 const $=id=>document.getElementById(id);
 function tracked(k){return SYNC_PREFIXES.some(p=>k===p||k.startsWith(p));}
