@@ -27,6 +27,15 @@
     "priority": true
   },
   {
+    "id": "start-and-finish",
+    "name": "Start & Finish: 12 Weeks",
+    "description": "A gentle 12-week practice for fear of failure, procrastination and follow-through.",
+    "desc": "A gentle 12-week practice for fear of failure, procrastination and follow-through.",
+    "icon": "🎯",
+    "href": "apps/start-and-finish/index.html",
+    "priority": false
+  },
+  {
     "id": "meditation-presence",
     "name": "Meditation & Presence",
     "description": "12 weeks to build mindfulness, attention, emotional awareness and a calmer relationship with your thoughts.",
