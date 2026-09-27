@@ -2,7 +2,7 @@
 const SUPABASE_URL='https://cxrfobwwjfnzwjunzrvs.supabase.co';
 const SUPABASE_KEY='sb_publishable_a7nF_FXsb6HRHPxQsUDfWQ_DPsx2jnS';
 const SYNC_APP_KEY='confidence-hub';
-const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-','hubCustomApps','hubTileOrder','hubCategories','hubCategoryMap','hubRoadmap'];
+const SYNC_PREFIXES=['confidenceState:','confidenceWeek:','confidenceActivePlan','privateCourseV3Complete','stiffAdminSettings','kb-life-manager-v1','kb-workout-','hubCustomApps','hubTileOrder','hubCategories','hubCategoryMap','hubRoadmap','hub-start-finish-v1'];
 let sb=null,user=null,pushTimer=null,applying=false;
 const $=id=>document.getElementById(id);
 function tracked(k){return SYNC_PREFIXES.some(p=>k===p||k.startsWith(p));}
@@ -12,9 +12,9 @@ async function init(){
   await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.105.0/dist/umd/supabase.min.js');
   sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,experimental:{passkey:true}}});
   window.KBSupabase=sb;
-  const {data}=await sb.auth.getSession(); user=data.session?.user||null; if(user) await pull(); renderAuthUi();
+  const {data}=await sb.auth.getSession(); user=data.session?.user||null; if(user) await pull(); renderAuthUi(); window.dispatchEvent(new Event('kb-cloud-ready'));
   sb.auth.onAuthStateChange(async(_e,s)=>{user=s?.user||null;if(user)await pull();renderAuthUi();});
- }catch(e){console.warn('Cloud sync unavailable',e);renderAuthUi('Cloud service could not load. Refresh and try again.');}
+ }catch(e){console.warn('Cloud sync unavailable',e);renderAuthUi('Cloud service could not load. Refresh and try again.');window.dispatchEvent(new Event('kb-cloud-ready'));}
 }
 function snapshot(){const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(tracked(k))o[k]=localStorage.getItem(k)}return o}
 async function pull(){if(!sb||!user)return;const {data,error}=await sb.from('user_app_data').select('data').eq('user_id',user.id).eq('app_key',SYNC_APP_KEY).maybeSingle();if(error){console.warn('Cloud pull failed',error);return}if(data?.data){applying=true;for(const [k,v] of Object.entries(data.data))localStorage.setItem(k,v);applying=false;window.dispatchEvent(new Event('kb-cloud-loaded'));}else await push();}
@@ -29,7 +29,7 @@ async function signOut(){if(sb)await sb.auth.signOut();location.reload();}
 function closeAccount(){ $('accountPopover')?.classList.add('hidden'); }
 function renderAccount(){
  const pop=$('accountPopover'); if(!pop||!user)return;
- pop.innerHTML=`<div class="account-title">MOJOMAN</div><div class="account-email">${user.email||'Signed in'} · ☁ Synced</div><button id="acctAdd">＋ Add App</button><button id="acctManage">⚙ Manage Apps</button><button id="acctOrder">↕ Organise Hub</button><button id="acctRoadmap">🧭 My Roadmap</button><button id="acctPass">🔐 Add Face ID / Touch ID</button><button id="acctOut">↪ Sign out</button>`;
+ pop.innerHTML=`<div class="account-title">SHAFT APP LIBRARY</div><div class="account-email">${user.email||'Signed in'} · ☁ Synced</div><button id="acctAdd">＋ Add App</button><button id="acctManage">⚙ Manage Apps</button><button id="acctOrder">↕ Organise Hub</button><button id="acctRoadmap">🧭 My Roadmap</button><button id="acctPass">🔐 Add Face ID / Touch ID</button><button id="acctOut">↪ Sign out</button>`;
  $('acctAdd').onclick=()=>{closeAccount();window.openAdmin?.(false)};$('acctManage').onclick=()=>{closeAccount();window.openAdmin?.(true)};$('acctOrder').onclick=()=>{closeAccount();window.openOrganizer?.()};$('acctRoadmap').onclick=()=>{closeAccount();window.openRoadmap?.()};$('acctPass').onclick=addPasskey;$('acctOut').onclick=signOut;
 }
 function renderAuthUi(errorText=''){
