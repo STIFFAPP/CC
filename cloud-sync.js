@@ -29,7 +29,7 @@ async function signOut(){if(sb)await sb.auth.signOut();location.reload();}
 function closeAccount(){ $('accountPopover')?.classList.add('hidden'); }
 function renderAccount(){
  const pop=$('accountPopover'); if(!pop||!user)return;
- pop.innerHTML=`<div class="account-title">SHAFT APP LIBRARY</div><div class="account-email">${user.email||'Signed in'} · ☁ Synced</div><button id="acctAdd">＋ Add App</button><button id="acctManage">⚙ Manage Apps</button><button id="acctOrder">↕ Organise Hub</button><button id="acctRoadmap">🧭 My Roadmap</button><button id="acctPass">🔐 Add Face ID / Touch ID</button><button id="acctOut">↪ Sign out</button>`;
+ pop.innerHTML=`<div class="account-title">CONFIDENCE HUB</div><div class="account-email">${user.email||'Signed in'} · ☁ Synced</div><button id="acctAdd">＋ Add App</button><button id="acctManage">⚙ Manage Apps</button><button id="acctOrder">↕ Organise Hub</button><button id="acctRoadmap">🧭 My Roadmap</button><button id="acctPass">🔐 Add Face ID / Touch ID</button><button id="acctOut">↪ Sign out</button>`;
  $('acctAdd').onclick=()=>{closeAccount();window.openAdmin?.(false)};$('acctManage').onclick=()=>{closeAccount();window.openAdmin?.(true)};$('acctOrder').onclick=()=>{closeAccount();window.openOrganizer?.()};$('acctRoadmap').onclick=()=>{closeAccount();window.openRoadmap?.()};$('acctPass').onclick=addPasskey;$('acctOut').onclick=signOut;
 }
 function renderAuthUi(errorText=''){
