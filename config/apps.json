@@ -4,7 +4,7 @@
     "name": "STIFF",
     "description": "Open your private STIFF course and continue through its phases, lessons and exercises.",
     "desc": "Open your private STIFF course and continue through its phases, lessons and exercises.",
-    "icon": "\u26a1",
+    "icon": "⚡",
     "href": "apps/stiff/index.html",
     "priority": true
   },
@@ -13,7 +13,7 @@
     "name": "Life Manager",
     "description": "Your day-to-day life manager, reset tools and practical support for keeping things moving.",
     "desc": "Your day-to-day life manager, reset tools and practical support for keeping things moving.",
-    "icon": "\ud83e\udded",
+    "icon": "🧭",
     "href": "apps/life-manager/index.html",
     "priority": true
   },
@@ -22,9 +22,27 @@
     "name": "12-Week Workout",
     "description": "Open your 12-week workout programme and weight tracker.",
     "desc": "Open your 12-week workout programme and weight tracker.",
-    "icon": "\ud83c\udfcb\ufe0f",
+    "icon": "🏋️",
     "href": "apps/workout/index.html",
     "priority": true
+  },
+  {
+    "id": "recovery",
+    "name": "Recovery",
+    "description": "A private space for streaks, check-ins, cravings, reflections and progress history.",
+    "desc": "A private space for streaks, check-ins, cravings, reflections and progress history.",
+    "icon": "🌱",
+    "href": "apps/recovery/index.html",
+    "priority": false
+  },
+  {
+    "id": "project-hq",
+    "name": "Project HQ",
+    "description": "Keep projects and next actions in one calm place.",
+    "desc": "Keep projects and next actions in one calm place.",
+    "icon": "📌",
+    "href": "apps/project-hq/index.html",
+    "priority": false
   },
   {
     "id": "start-and-finish",
@@ -40,7 +58,7 @@
     "name": "Meditation & Presence",
     "description": "12 weeks to build mindfulness, attention, emotional awareness and a calmer relationship with your thoughts.",
     "desc": "12 weeks to build mindfulness, attention, emotional awareness and a calmer relationship with your thoughts.",
-    "icon": "\ud83e\uddd8",
+    "icon": "🧘",
     "href": "apps/meditation-presence/index.html",
     "priority": false
   },
@@ -49,7 +67,7 @@
     "name": "Understanding Business Management",
     "description": "12 weeks to understand customers, finance, operations, people, strategy and how a business is managed.",
     "desc": "12 weeks to understand customers, finance, operations, people, strategy and how a business is managed.",
-    "icon": "\ud83d\udcbc",
+    "icon": "💼",
     "href": "apps/business-management/index.html",
     "priority": false
   },
@@ -58,7 +76,7 @@
     "name": "Understanding Stoicism",
     "description": "12 weeks to study Stoic philosophy and turn its ideas into practical habits without confusing Stoicism with suppressing emotion.",
     "desc": "12 weeks to study Stoic philosophy and turn its ideas into practical habits without confusing Stoicism with suppressing emotion.",
-    "icon": "\ud83c\udfdb\ufe0f",
+    "icon": "🏛️",
     "href": "apps/stoicism/index.html",
     "priority": false
   },
@@ -67,7 +85,7 @@
     "name": "Tax Evasion, Compliance & Legal Tax Planning",
     "description": "12 weeks to understand tax evasion, recognise risky behaviour, keep better records and distinguish illegal evasion from lawful tax planning.",
     "desc": "12 weeks to understand tax evasion, recognise risky behaviour, keep better records and distinguish illegal evasion from lawful tax planning.",
-    "icon": "\ud83e\uddfe",
+    "icon": "🧾",
     "href": "apps/tax-compliance/index.html",
     "priority": false
   },
@@ -76,7 +94,7 @@
     "name": "Eden Ground Maintenance Advertising",
     "description": "12 weeks to build a repeatable local advertising system for Eden Ground Maintenance, from positioning and proof to enquiries, follow-up and referrals.",
     "desc": "12 weeks to build a repeatable local advertising system for Eden Ground Maintenance, from positioning and proof to enquiries, follow-up and referrals.",
-    "icon": "\ud83c\udf3f",
+    "icon": "🌿",
     "href": "apps/eden-advertising/index.html",
     "priority": false
   },
@@ -85,7 +103,7 @@
     "name": "YouTube Storytelling",
     "description": "12 weeks to learn hooks, story structure, scripting, pacing, retention and emotionally engaging YouTube stories.",
     "desc": "12 weeks to learn hooks, story structure, scripting, pacing, retention and emotionally engaging YouTube stories.",
-    "icon": "\ud83c\udfac",
+    "icon": "🎬",
     "href": "apps/youtube-storytelling/index.html",
     "priority": false
   },
@@ -94,7 +112,7 @@
     "name": "Cinematic Camera & Visual Storytelling",
     "description": "12 weeks of camera, lighting, movement, sound and cinematic sequencing designed to support your YouTube storytelling.",
     "desc": "12 weeks of camera, lighting, movement, sound and cinematic sequencing designed to support your YouTube storytelling.",
-    "icon": "\ud83c\udfa5",
+    "icon": "🎥",
     "href": "apps/cinematic-camera/index.html",
     "priority": false
   }
