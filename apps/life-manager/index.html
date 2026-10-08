@@ -12,10 +12,7 @@
 <style>.mojo-hub-home{position:fixed;z-index:2147483647;top:12px;left:12px;background:#151d33ee;color:#fff!important;border:1px solid #445071;border-radius:999px;padding:9px 13px;text-decoration:none!important;font:700 13px system-ui;box-shadow:0 6px 24px #0006}</style></head>
 <body><a class="mojo-hub-home" href="../../index.html">← 🏠 Hub</a>
   <a class="skip-link" href="#main">Skip to today</a>
-  <header class="app-header">
-    <div class="brand" aria-label="Life Manager"><span class="brand-mark" aria-hidden="true">KB</span><span>Life Manager</span></div>
-    <button class="icon-button" id="openSettings" type="button" aria-label="Open settings">⚙</button>
-  </header>
+  <header class="app-header"><div class="brand" aria-label="Life Manager"><span class="brand-mark" aria-hidden="true">KB</span><span>Life Manager</span></div><button class="icon-button" id="openSettings" type="button" aria-label="Open settings">⚙</button></header>
   <main id="main">
     <section id="todayView" class="view active" aria-labelledby="todayHeading">
       <div class="date-strip"><button class="date-step" id="prevDay" type="button" aria-label="Previous day">‹</button><label class="date-control"><span id="todayHeading">Plan date</span><input id="activeDate" type="date"></label><button class="date-step" id="nextDay" type="button" aria-label="Next day">›</button></div>
@@ -42,6 +39,7 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
   <script src="schedule-v2.js"></script>
+  <script src="gym-routine.js"></script>
   <script src="../../cloud-sync.js"></script>
 </body>
 </html>
