@@ -1,4 +1,4 @@
-/* Life Manager weekly finish-time + sleep display controls */
+/* Life Manager weekly finish-time + sleep display controls — loop-safe */
 (() => {
   const WEEK_KEY='kb-life-manager-week-v2';
   const WORK_HOURS={night:12,early:12,day:8,late:8};
@@ -8,19 +8,19 @@
   function load(){try{return JSON.parse(localStorage.getItem(WEEK_KEY))||{}}catch{return {}}}
   function save(v){localStorage.setItem(WEEK_KEY,JSON.stringify(v));}
   function defaultFinish(key,start){return WORK_HOURS[key]?clock(mins(start)+WORK_HOURS[key]*60):'';}
-  function sleepHours(key){return ['night','early','day','late'].includes(key)?7.5:7.5;}
+  function sleepHours(){return 7.5;}
 
   function enhance(){
     const box=document.querySelector('#modeChooser');
     if(!box||!box.querySelector('.week-day'))return;
     const week=load();
+
     box.querySelectorAll('.week-day').forEach(card=>{
       const date=card.dataset.weekDate;
       const select=card.querySelector('.week-template');
       const start=card.querySelector('.week-anchor');
       if(!select||!start)return;
-      const key=select.value;
-      const isWork=!!WORK_HOURS[key];
+
       let finish=card.querySelector('.week-finish');
       if(!finish){
         const label=document.createElement('label');
@@ -29,22 +29,25 @@
         start.closest('label')?.after(label);
         finish=label.querySelector('.week-finish');
       }
-      const saved=week[date]||{};
-      finish.value=saved.finish||defaultFinish(key,start.value);
-      finish.closest('.week-finish-wrap').hidden=!isWork;
       let sleep=card.querySelector('.week-sleep');
       if(!sleep){sleep=document.createElement('div');sleep.className='week-sleep';card.appendChild(sleep);}
-      sleep.textContent=`Sleep: ${sleepHours(key)} hrs`;
 
-      const sync=()=>{
-        const k=select.value;
-        const work=!!WORK_HOURS[k];
-        finish.closest('.week-finish-wrap').hidden=!work;
-        if(work && !finish.value)finish.value=defaultFinish(k,start.value);
-        sleep.textContent=`Sleep: ${sleepHours(k)} hrs`;
+      const sync=(resetFinish=false)=>{
+        const key=select.value;
+        const isWork=!!WORK_HOURS[key];
+        const saved=load()[date]||{};
+        finish.closest('.week-finish-wrap').hidden=!isWork;
+        if(isWork && (resetFinish||!finish.value)) finish.value=resetFinish?defaultFinish(key,start.value):(saved.finish||defaultFinish(key,start.value));
+        if(!isWork) finish.value='';
+        sleep.textContent=`Sleep: ${sleepHours()} hrs`;
       };
-      select.addEventListener('change',()=>{finish.value=defaultFinish(select.value,start.value);sync();});
-      start.addEventListener('change',()=>{if(WORK_HOURS[select.value])finish.value=defaultFinish(select.value,start.value);});
+
+      if(!card.dataset.finishControlsBound){
+        card.dataset.finishControlsBound='1';
+        select.addEventListener('change',()=>sync(true));
+        start.addEventListener('change',()=>{if(WORK_HOURS[select.value])finish.value=defaultFinish(select.value,start.value);});
+      }
+      sync(false);
     });
 
     const apply=document.querySelector('#applyWeek');
@@ -56,27 +59,37 @@
           const date=card.dataset.weekDate;
           week[date]=week[date]||{};
           const f=card.querySelector('.week-finish');
-          if(f&&!f.closest('.week-finish-wrap').hidden)week[date].finish=f.value;
+          if(f&&f.value&&!f.closest('.week-finish-wrap').hidden)week[date].finish=f.value;
           else delete week[date].finish;
         });
         save(week);
-      });
+      },true);
     }
+
     const one=document.querySelector('#useTodayOnly');
     if(one&&!one.dataset.finishHook){
       one.dataset.finishHook='1';
       one.addEventListener('click',()=>{
-        const card=box.querySelector('.week-day.selected');if(!card)return;
-        const week=load(),date=card.dataset.weekDate;week[date]=week[date]||{};
-        const f=card.querySelector('.week-finish');if(f&&!f.closest('.week-finish-wrap').hidden)week[date].finish=f.value;else delete week[date].finish;save(week);
-      });
+        const card=box.querySelector('.week-day.selected')||box.querySelector(`[data-week-date="${window.selectedDate||''}"]`);
+        if(!card)return;
+        const week=load(),date=card.dataset.weekDate;
+        week[date]=week[date]||{};
+        const f=card.querySelector('.week-finish');
+        if(f&&f.value&&!f.closest('.week-finish-wrap').hidden)week[date].finish=f.value;
+        else delete week[date].finish;
+        save(week);
+      },true);
     }
   }
 
-  const observer=new MutationObserver(()=>enhance());
+  // schedule-v2 rebuilds the chooser when it is opened. Hook user interaction and
+  // run a few bounded initialisation passes instead of observing our own DOM writes.
   document.addEventListener('DOMContentLoaded',()=>{
-    const box=document.querySelector('#modeChooser');if(box)observer.observe(box,{childList:true,subtree:true});
-    enhance();setTimeout(enhance,100);setTimeout(enhance,500);
+    enhance();
+    setTimeout(enhance,50);
+    setTimeout(enhance,250);
+    setTimeout(enhance,750);
+    document.querySelector('#modeChooser')?.addEventListener('click',()=>setTimeout(enhance,0));
   });
 
   const style=document.createElement('style');
