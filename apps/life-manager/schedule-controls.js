@@ -1,0 +1,85 @@
+/* Life Manager weekly finish-time + sleep display controls */
+(() => {
+  const WEEK_KEY='kb-life-manager-week-v2';
+  const WORK_HOURS={night:12,early:12,day:8,late:8};
+
+  function mins(t){if(!t)return 0;const [h,m]=t.split(':').map(Number);return h*60+m;}
+  function clock(n){n=((n%1440)+1440)%1440;return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');}
+  function load(){try{return JSON.parse(localStorage.getItem(WEEK_KEY))||{}}catch{return {}}}
+  function save(v){localStorage.setItem(WEEK_KEY,JSON.stringify(v));}
+  function defaultFinish(key,start){return WORK_HOURS[key]?clock(mins(start)+WORK_HOURS[key]*60):'';}
+  function sleepHours(key){return ['night','early','day','late'].includes(key)?7.5:7.5;}
+
+  function enhance(){
+    const box=document.querySelector('#modeChooser');
+    if(!box||!box.querySelector('.week-day'))return;
+    const week=load();
+    box.querySelectorAll('.week-day').forEach(card=>{
+      const date=card.dataset.weekDate;
+      const select=card.querySelector('.week-template');
+      const start=card.querySelector('.week-anchor');
+      if(!select||!start)return;
+      const key=select.value;
+      const isWork=!!WORK_HOURS[key];
+      let finish=card.querySelector('.week-finish');
+      if(!finish){
+        const label=document.createElement('label');
+        label.className='week-finish-wrap';
+        label.innerHTML='<span>Work finishes</span><input class="week-finish" type="time">';
+        start.closest('label')?.after(label);
+        finish=label.querySelector('.week-finish');
+      }
+      const saved=week[date]||{};
+      finish.value=saved.finish||defaultFinish(key,start.value);
+      finish.closest('.week-finish-wrap').hidden=!isWork;
+      let sleep=card.querySelector('.week-sleep');
+      if(!sleep){sleep=document.createElement('div');sleep.className='week-sleep';card.appendChild(sleep);}
+      sleep.textContent=`Sleep: ${sleepHours(key)} hrs`;
+
+      const sync=()=>{
+        const k=select.value;
+        const work=!!WORK_HOURS[k];
+        finish.closest('.week-finish-wrap').hidden=!work;
+        if(work && !finish.value)finish.value=defaultFinish(k,start.value);
+        sleep.textContent=`Sleep: ${sleepHours(k)} hrs`;
+      };
+      select.addEventListener('change',()=>{finish.value=defaultFinish(select.value,start.value);sync();});
+      start.addEventListener('change',()=>{if(WORK_HOURS[select.value])finish.value=defaultFinish(select.value,start.value);});
+    });
+
+    const apply=document.querySelector('#applyWeek');
+    if(apply&&!apply.dataset.finishHook){
+      apply.dataset.finishHook='1';
+      apply.addEventListener('click',()=>{
+        const week=load();
+        box.querySelectorAll('.week-day').forEach(card=>{
+          const date=card.dataset.weekDate;
+          week[date]=week[date]||{};
+          const f=card.querySelector('.week-finish');
+          if(f&&!f.closest('.week-finish-wrap').hidden)week[date].finish=f.value;
+          else delete week[date].finish;
+        });
+        save(week);
+      });
+    }
+    const one=document.querySelector('#useTodayOnly');
+    if(one&&!one.dataset.finishHook){
+      one.dataset.finishHook='1';
+      one.addEventListener('click',()=>{
+        const card=box.querySelector('.week-day.selected');if(!card)return;
+        const week=load(),date=card.dataset.weekDate;week[date]=week[date]||{};
+        const f=card.querySelector('.week-finish');if(f&&!f.closest('.week-finish-wrap').hidden)week[date].finish=f.value;else delete week[date].finish;save(week);
+      });
+    }
+  }
+
+  const observer=new MutationObserver(()=>enhance());
+  document.addEventListener('DOMContentLoaded',()=>{
+    const box=document.querySelector('#modeChooser');if(box)observer.observe(box,{childList:true,subtree:true});
+    enhance();setTimeout(enhance,100);setTimeout(enhance,500);
+  });
+
+  const style=document.createElement('style');
+  style.textContent='.week-finish-wrap{display:grid;gap:4px;font-size:.72rem}.week-finish-wrap[hidden]{display:none}.week-sleep{margin-top:2px;padding:7px 8px;border-radius:9px;background:rgba(117,167,255,.10);font-size:.74rem;font-weight:700;white-space:nowrap}';
+  document.head.appendChild(style);
+})();
