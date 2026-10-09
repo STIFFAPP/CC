@@ -62,7 +62,7 @@ const DEFAULT_CATEGORIES=[
 const DEFAULT_CATEGORY_MAP={
  "plan:conversation":"self","plan:mindset":"self","plan:approach":"self","plan:relationships":"self","plan:selfworth":"self","plan:complete":"self",
  "app:start-and-finish":"self","app:meditation-presence":"self","app:stoicism":"self","app:workout":"health","app:business-management":"business","app:tax-compliance":"business","app:eden-advertising":"business",
- "app:youtube-storytelling":"creative","app:cinematic-camera":"creative","app:life-manager":"life","app:project-hq":"life","app:recovery":"health","app:stiff":"private"
+ "app:eden-commercial-crm":"business","app:youtube-storytelling":"creative","app:cinematic-camera":"creative","app:life-manager":"life","app:project-hq":"life","app:recovery":"health","app:stiff":"private"
 };
 function categories(){try{const x=JSON.parse(localStorage.getItem("hubCategories")||"null");if(Array.isArray(x)&&x.length)return x}catch(e){}return DEFAULT_CATEGORIES.map(x=>({...x}))}
 function categoryMap(){let x={};try{x=JSON.parse(localStorage.getItem("hubCategoryMap")||"{}")||{}}catch(e){}return {...DEFAULT_CATEGORY_MAP,...x}}

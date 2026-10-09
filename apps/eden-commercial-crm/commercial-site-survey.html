@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Commercial Site Survey | Eden Grounds Maintenance</title>
+<meta name="description" content="Request a commercial exterior cleaning and grounds maintenance site survey from Eden Grounds Maintenance.">
+<link rel="stylesheet" href="styles-v11.css">
+<style>
+.survey-wrap{max-width:960px;margin:0 auto;padding:48px 20px 80px}.survey-head{max-width:760px;margin-bottom:30px}
+.survey-head h1{font-size:clamp(2rem,5vw,4rem);line-height:1.02;margin:.2em 0}.survey-head p{font-size:1.08rem;line-height:1.7}
+.survey-form{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#fff;padding:24px;border:1px solid #dfe8e1;border-radius:20px;box-shadow:0 12px 40px rgba(20,60,40,.07)}
+.survey-form label{font-weight:700;display:block;margin-bottom:7px}.survey-form input,.survey-form select,.survey-form textarea{width:100%;box-sizing:border-box;padding:13px;border:1px solid #cad7ce;border-radius:10px;font:inherit;background:#fff}
+.survey-form textarea{min-height:110px}.full{grid-column:1/-1}.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.checks label{font-weight:500}
+.note{background:#f2f7f3;border-radius:14px;padding:16px;line-height:1.6}.actions{display:flex;gap:12px;flex-wrap:wrap}
+button{border:0;border-radius:999px;padding:14px 20px;font-weight:800;cursor:pointer;background:#1f5d42;color:#fff}
+.secondary{background:#edf4ef;color:#1f5d42}.result{display:none;margin-top:20px;padding:20px;border-radius:16px;background:#f4f8f5;white-space:pre-wrap}
+@media(max-width:700px){.survey-form{grid-template-columns:1fr}.full{grid-column:auto}.checks{grid-template-columns:1fr}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+</head>
+<body>
+<main class="survey-wrap">
+  <a href="commercial.html">← Commercial services</a>
+  <div class="survey-head">
+    <p><strong>EDEN GROUNDS MAINTENANCE · COMMERCIAL</strong></p>
+    <h1>Commercial site survey</h1>
+    <p>Use this form during a call or site visit. It creates a clean survey summary you can copy into the quotation and customer record. Fixed pricing should still be confirmed after inspecting the actual site.</p>
+  </div>
+  <form class="survey-form" id="surveyForm">
+    <div><label>Company / organisation</label><input name="company" required></div>
+    <div><label>Contact name</label><input name="contact"></div>
+    <div><label>Phone</label><input name="phone"></div>
+    <div><label>Email</label><input name="email" type="email"></div>
+    <div class="full"><label>Site address</label><input name="address"></div>
+    <div><label>Site type</label><select name="type"><option>Industrial / warehouse</option><option>Managed property</option><option>Church / place of worship</option><option>Care home</option><option>School / nursery</option><option>Dealership / garage</option><option>Hospitality / venue</option><option>Retail</option><option>Sports / leisure</option><option>Other</option></select></div>
+    <div><label>Preferred service</label><select name="frequency"><option>One-off reset</option><option>Monthly</option><option>Quarterly</option><option>Seasonal</option><option>Not sure — recommend a programme</option></select></div>
+    <div class="full"><label>Areas requiring attention</label><div class="checks">
+      <label><input type="checkbox" name="areas" value="Yards / hardstanding"> Yards / hardstanding</label>
+      <label><input type="checkbox" name="areas" value="Paths / entrances"> Paths / entrances</label>
+      <label><input type="checkbox" name="areas" value="Car parks"> Car parks</label>
+      <label><input type="checkbox" name="areas" value="Loading / service areas"> Loading / service areas</label>
+      <label><input type="checkbox" name="areas" value="Bin / waste areas"> Bin / waste areas</label>
+      <label><input type="checkbox" name="areas" value="Walls / exterior surfaces"> Walls / exterior surfaces</label>
+      <label><input type="checkbox" name="areas" value="Grounds maintenance"> Grounds maintenance</label>
+      <label><input type="checkbox" name="areas" value="Gutters / drainage surrounds"> Gutters / drainage surrounds</label>
+    </div></div>
+    <div><label>Approx. area / quantity</label><input name="area" placeholder="e.g. 650 m² / 8 loading bays"></div>
+    <div><label>Condition</label><select name="condition"><option>Light</option><option>Moderate</option><option>Heavy</option><option>Specialist contamination / stains</option></select></div>
+    <div><label>Water available on site?</label><select name="water"><option>Yes</option><option>No / use mobile supply</option><option>Unknown</option></select></div>
+    <div><label>Access / working window</label><input name="access" placeholder="e.g. after 18:00 / Sundays"></div>
+    <div class="full"><label>Drainage / environmental observations</label><textarea name="drainage" placeholder="Surface drains, foul drainage information, containment needs, nearby watercourse, etc."></textarea></div>
+    <div class="full"><label>Risks / restrictions / site rules</label><textarea name="risks" placeholder="Pedestrians, vehicle movements, security, permits, fragile areas, chemicals, food areas, safeguarding, etc."></textarea></div>
+    <div class="full"><label>Customer priorities</label><textarea name="priority" placeholder="What result matters most? Which area is causing complaints or looks worst?"></textarea></div>
+    <div class="full"><label>Survey notes / measurements</label><textarea name="notes"></textarea></div>
+    <div class="full note"><strong>Commercial quote rule:</strong> separate the initial reset from recurring maintenance. Clearly state inclusions, exclusions, access assumptions, specialist stain treatment and any wastewater controls required.</div>
+    <div class="full actions"><button type="button" onclick="buildSummary()">Create survey summary</button><button type="button" class="secondary" onclick="window.print()">Print / Save PDF</button><button type="button" class="secondary" onclick="saveToCRM()">Save survey to CRM</button><a class="secondary" style="padding:14px 20px;border-radius:999px;text-decoration:none;font-weight:800" href="index.html">Open CRM</a></div>
+  </form>
+  <div id="result" class="result"></div>
+</main>
+<script>
+function buildSummary(){
+ const f=document.getElementById('surveyForm'), d=new FormData(f);
+ const areas=[...document.querySelectorAll('input[name="areas"]:checked')].map(x=>x.value).join(', ')||'Not recorded';
+ const txt=`EDEN GROUNDS MAINTENANCE — COMMERCIAL SITE SURVEY
+
+Company: ${d.get('company')||''}
+Contact: ${d.get('contact')||''}
+Phone: ${d.get('phone')||''}
+Email: ${d.get('email')||''}
+Site: ${d.get('address')||''}
+Site type: ${d.get('type')||''}
+
+REQUEST
+Areas: ${areas}
+Approx. area / quantity: ${d.get('area')||''}
+Condition: ${d.get('condition')||''}
+Preferred frequency: ${d.get('frequency')||''}
+
+OPERATIONS
+Water: ${d.get('water')||''}
+Access / working window: ${d.get('access')||''}
+Drainage / environmental: ${d.get('drainage')||''}
+Risks / restrictions: ${d.get('risks')||''}
+
+CUSTOMER PRIORITY
+${d.get('priority')||''}
+
+SURVEY NOTES
+${d.get('notes')||''}
+
+NEXT STEP
+Prepare a fixed-scope one-off reset quotation plus an optional planned-maintenance price. Confirm assumptions, exclusions and any specialist treatment or wastewater controls.`;
+ const r=document.getElementById('result'); r.textContent=txt; r.style.display='block'; r.scrollIntoView({behavior:'smooth'});
+}
+
+function saveToCRM(){
+ const params=new URLSearchParams(location.search), id=params.get('crm');
+ const key='edenCommercialCRM_v1', arr=JSON.parse(localStorage.getItem(key)||'[]');
+ if(!id || !arr.length){ alert('Open this survey from a prospect inside the CRM first.'); return; }
+ const x=arr.find(z=>z.id===id); if(!x){alert('CRM prospect not found.');return;}
+ const f=document.getElementById('surveyForm'), d=new FormData(f);
+ const areas=[...document.querySelectorAll('input[name="areas"]:checked')].map(a=>a.value).join(', ');
+ x.stage='Survey complete'; x.lastContact=new Date().toISOString().slice(0,10);
+ let nd=new Date(); nd.setDate(nd.getDate()+1); x.nextFollowUp=nd.toISOString().slice(0,10);
+ x.nextAction='Prepare and send quote';
+ x.notes=(x.notes?x.notes+'\\n\\n':'')+'SITE SURVEY: '+(d.get('address')||'')+' | Areas: '+areas+' | Approx: '+(d.get('area')||'')+' | Condition: '+(d.get('condition')||'')+' | Priority: '+(d.get('priority')||'')+' | Notes: '+(d.get('notes')||'');
+ localStorage.setItem(key,JSON.stringify(arr));
+ try{
+   const c=window.EDEN_SUPABASE||{};
+   if(c.url && c.publishableKey && !c.url.startsWith('PASTE_')){
+     const sb=window.supabase.createClient(c.url,c.publishableKey,{auth:{persistSession:true}});
+     sb.auth.getSession().then(async ({data:{session}})=>{
+       if(session?.user) await sb.from('eden_crm_prospects').upsert({id:x.id,owner_id:session.user.id,payload:x,updated_at:new Date().toISOString()},{onConflict:'id'});
+     });
+   }
+ }catch(e){console.warn(e)}
+ alert('Survey saved to CRM. Next action set to prepare and send quote.');
+}
+</script>
+</body></html>
